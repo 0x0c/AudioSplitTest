@@ -56,6 +56,21 @@ class ViewController: UIViewController {
 				print("done")
 				print(outputPath)
 			})
+			
+			let composition2 = AVMutableComposition()
+			composition2.addMutableTrack(withMediaType: .audio, preferredTrackID: kCMPersistentTrackID_Invalid)
+			let audioTrackComposition2 = composition2.addMutableTrack(withMediaType: .audio, preferredTrackID: kCMPersistentTrackID_Invalid)
+			try audioTrackComposition2?.insertTimeRange(range, of: audioTrack, at: kCMTimeZero)
+			
+			let outputPath2 = NSHomeDirectory() + "/Documents" + "/out.m4a"
+			let session2 = AVAssetExportSession(asset: composition2, presetName: AVAssetExportPresetAppleM4A)
+			session2?.outputURL = URL(fileURLWithPath: outputPath2)
+			session2?.metadata = audioTrack.asset!.metadata
+			session2?.outputFileType = AVFileType.m4a
+			session2?.exportAsynchronously(completionHandler: {
+				print("audio done")
+				print(outputPath2)
+			})
 		}
 		catch {
 			print("exception")
